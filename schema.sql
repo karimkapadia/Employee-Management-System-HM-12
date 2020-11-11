@@ -5,7 +5,7 @@ create table department(
     `id`  INT PRIMARY KEY,
     `name` VARCHAR(30)); 
 
-create table role(
+create table emp_role(
   `id`  INT PRIMARY KEY,
   `title` VARCHAR(30), 
   `salary`   DECIMAL ,
