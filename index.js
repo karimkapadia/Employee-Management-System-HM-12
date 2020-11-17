@@ -56,8 +56,8 @@ async function main()
 
             const roletId = await inquirer.prompt({type: "input",name:"id", message:"What is the id of role? "})
             const roleTitle= await inquirer.prompt({type: "input", name: "title", message:"What is the title of role?"})
-            const roleSalary= await inquirer.prompt({type: "input", name: "salary", message:"What is the name of ?"})
-            const deptId= await inquirer.prompt({type: "input",name: "dept_id", message:"What is the name of Department?"})
+            const roleSalary= await inquirer.prompt({type: "input", name: "salary", message:"Enter salary for this role?"})
+            const deptId= await inquirer.prompt({type: "input",name: "dept_id", message:"Enter department ID for this role?"})
             
             await db.query("INSERT INTO emp_role(id,title,salary, department_id) VALUES (?,?,?,?)",
             [roletId.id, roleTitle.title,roleSalary.salary,deptId.dept_id]);
@@ -116,10 +116,10 @@ async function main()
             ])
             if(choiceupdate.updateSelected == "Update Employees")
             {
-                console.log("[update employee called]");
-                console.log('[We are in employee update]')
+                // console.log("[update employee called]");
+                // console.log('[We are in employee update]')
                 const result = await db.query("select * from employee")
-                console.log(result.length);
+                // console.log(result.length);
 
                 let emp= [];
                 result.forEach(element => {emp.push(element.first_name)
@@ -164,6 +164,26 @@ async function main()
                             console.log("successfully changed Manager ID");
                             main();
                     }
+                    else
+                    {
+                        const updRoleid = await inquirer.prompt(
+                            [
+                                {
+                                    type:"input",
+                                    name:"updateroleId",
+                                    message: "Please enter new Role ID",
+                            
+
+                                }
+                            ])
+                            // console.log(updRoleid.updateroleId)
+                            // console.log(`update employee set role_id = "${updRoleid.updateroleId}" where first_name = "${emp_upd.emp_select}"`);
+
+                             const mangerQuery = await db.query(`update employee set role_id = ${updRoleid.updateroleId} where first_name = "${emp_upd.emp_select}"`);
+                            console.log("successfully changed Role ID");
+                            main();
+
+                    }
 
                 
 
@@ -172,9 +192,9 @@ async function main()
             else
             {
                 // console.log("[update employee called]");
-                 console.log('[We are in role update]')
+                //  console.log('[We are in role update]')
                 const result = await db.query("select * from emp_role")
-                console.log(result);
+                // console.log(result);
 
                 let role= [];
                 result.forEach(element => {role.push(element.title)
@@ -198,7 +218,7 @@ async function main()
                             choices: ["Role Title","Role salary"]
                         }
                     ])
-                    console.log(`[in update role prompt] ${role_upd.roletitle}`);
+                    // console.log(`[in update role prompt] ${role_upd.roletitle}`);
 
 
                     if(role_upd.roletitle == "Role Title") 
@@ -214,7 +234,7 @@ async function main()
 
                                 }
                             ])
-                            console.log(`updtitle.updatetitle`)
+                            // console.log(`updtitle.updatetitle`)
                             // console.log(`update employee set manager_id = "${updManager.updateMng}" where first_name = "${emp_upd.emp_select}"`);
 
                              const roleQuery = await db.query(`update emp_role set title = ? where title = ?`, [updtitle.updatetitle, role_upd.role_select])
@@ -233,7 +253,7 @@ async function main()
 
                                 }
                             ])
-                            console.log(`updsalary.updatesalary`)
+                            // console.log(`updsalary.updatesalary`)
                             // console.log(`update employee set manager_id = "${updManager.updateMng}" where first_name = "${emp_upd.emp_select}"`);
 
                              const roleQuery = await db.query(`update emp_role set salary = ? where title = ?`, [updsalary.updatesalary, role_upd.role_select])
